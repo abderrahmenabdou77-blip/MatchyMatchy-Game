@@ -397,13 +397,6 @@ function startTimer(duration, onComplete) {
     timeLeft--;
     updateTimerDisplay(timeLeft, duration);
 
-    // Fade wall in last 10 seconds
-    if (timeLeft <= 10 && timeLeft > 0) {
-      const ratio = timeLeft / 10;
-      wall.style.opacity = ratio.toString();
-      partnerMask.style.opacity = ratio.toString();
-    }
-
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       onComplete && onComplete();
