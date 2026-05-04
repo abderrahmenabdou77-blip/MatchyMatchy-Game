@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matchy Matchy — In Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style/game.css" />
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="game-bg" id="gameBg"></div>
+
+  <!-- ══ WAITING SCREEN ════════════════════════════════ -->
+  <div class="screen" id="screenWaiting">
+    <div class="waiting-box">
+      <div class="logo-badge">MM</div>
+      <h2>Waiting for your match…</h2>
+      <p>Your camera stays hidden until the final reveal.</p>
+      <div class="waiting-dots"><span></span><span></span><span></span></div>
+      <div class="room-tag">Room: <strong id="waitingRoomId">—</strong></div>
+    </div>
+  </div>
+
+  <!-- ══ GAME SCREEN ════════════════════════════════════ -->
+  <div class="screen" id="screenGame" hidden>
+
+    <!-- Top Bar -->
+    <header class="game-header">
+      <div class="header-left">
+        <span class="logo-sm">MM</span>
+        <div id="roundLabel" class="round-label">—</div>
+      </div>
+      <div id="timerDisplay" class="timer-display">
+        <i class="fa-solid fa-clock"></i>
+        <span id="timerText">00:00</span>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn danger" id="btnExit" title="Leave Room">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Stage indicator -->
+    <div class="stage-strip" id="stageStrip">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- Main arena -->
+    <main class="arena">
+
+      <!-- Partner Video -->
+      <div class="video-frame partner-frame" id="partnerFrame">
+        <video id="partnerVideo" autoplay playsinline></video>
+        <div class="video-mask" id="partnerMask"></div>
+        <div class="video-label">
+          <i class="fa-solid fa-user-secret"></i>
+          <span>Your Match</span>
+        </div>
+        <div class="speaking-ring" id="partnerSpeaking"></div>
+      </div>
+
+      <!-- WALL (center divider) -->
+      <div class="wall-container" id="wallContainer">
+        <div class="wall" id="wall">
+          <div class="wall-content">
+            <div id="wallEmoji" class="wall-emoji">💗</div>
+            <div id="wallRoundTitle" class="wall-round-title">HI 👋</div>
+            <div id="wallSubtitle" class="wall-subtitle">Say hello!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Video -->
+      <div class="video-frame my-frame" id="myFrame">
+        <video id="myVideo" autoplay playsinline muted></video>
+        <div class="video-mask" id="myMask"></div>
+        <div class="video-label">
+          <i class="fa-solid fa-user"></i>
+          <span>You</span>
+        </div>
+        <div class="speaking-ring" id="mySpeaking"></div>
+      </div>
+
+    </main>
+
+    <!-- Reactions Bar -->
+    <div class="reactions-bar" id="reactionsBar">
+      <button class="reaction-btn" data-reaction="heart"   title="Love it">❤️</button>
+      <button class="reaction-btn" data-reaction="flower"  title="Sweet">🌸</button>
+      <button class="reaction-btn" data-reaction="clap"    title="I agree">👏</button>
+      <button class="reaction-btn" data-reaction="redflag" title="Red flag">🚩</button>
+    </div>
+
+    <!-- Mic Control -->
+    <div class="controls-bar">
+      <button class="control-btn" id="btnMic" title="Toggle Mic">
+        <i class="fa-solid fa-microphone"></i>
+        <span>Mic</span>
+      </button>
+      <button class="control-btn" id="btnCam" title="Toggle Camera" disabled>
+        <i class="fa-solid fa-video-slash"></i>
+        <span>Cam Hidden</span>
+      </button>
+    </div>
+
+    <!-- Floating Reaction Overlay -->
+    <div id="reactionOverlay" class="reaction-overlay"></div>
+
+  </div>
+
+  <!-- ══ FINAL REVEAL SCREEN ═══════════════════════════ -->
+  <div class="screen" id="screenReveal" hidden>
+    <div class="reveal-box">
+      <h2 class="reveal-title">Final Reveal</h2>
+      <p class="reveal-sub">The wall is dropping. See who you've been talking to.</p>
+
+      <div class="reveal-videos">
+        <div class="reveal-video-wrap">
+          <video id="revealMyVideo" autoplay playsinline muted></video>
+          <span>You</span>
+        </div>
+        <div class="vs-badge">vs</div>
+        <div class="reveal-video-wrap">
+          <video id="revealPartnerVideo" autoplay playsinline></video>
+          <span>Your Match</span>
+        </div>
+      </div>
+
+      <div id="countdownDisplay" class="countdown-display">
+        <span id="countdownNum">5</span>
+      </div>
+
+      <!-- Decision buttons (shown after countdown) -->
+      <div class="decision-row" id="decisionRow" hidden>
+        <button class="decision-btn like" id="btnLike">
+          ❤️ It's a Match!
+        </button>
+        <button class="decision-btn pass" id="btnPass">
+          👋 Keep Looking
+        </button>
+      </div>
+
+      <!-- Waiting for partner's decision -->
+      <div class="waiting-decision" id="waitingDecision" hidden>
+        <div class="waiting-dots"><span></span><span></span><span></span></div>
+        <p>Waiting for your match's decision…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MATCH RESULT SCREEN ═══════════════════════════ -->
+  <div class="screen" id="screenResult" hidden>
+    <div class="result-box" id="resultBox">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="assets/config/gameConfig.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+/* =====================================================
+   MATCHY MATCHY — Lobby Styles
+   Dark Romantic / Neo-Midnight Aesthetic
+   ===================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #080810;
+  --surface:      #10101e;
+  --surface2:     #16162a;
+  --border:       rgba(255,255,255,0.07);
+  --accent:       #e94560;
+  --accent2:      #c77dff;
+  --gold:         #f5a623;
+  --text:         #eeeef0;
+  --text-muted:   #7a7a9a;
+  --radius:       16px;
+  --radius-lg:    24px;
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ── Background ───────────────────────────────────── */
+.bg-particles {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(233,69,96,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 20%, rgba(199,125,255,0.1) 0%, transparent 70%);
+}
+
+/* ── Layout ───────────────────────────────────────── */
+.lobby-wrapper {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: 100vh;
+}
+
+/* ── Brand Panel ──────────────────────────────────── */
+.brand-panel {
+  background: linear-gradient(160deg, #0d0d1f 0%, #12001a 100%);
+  border-right: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(233,69,96,0.15) 0%, transparent 60%);
+}
+
+.brand-content { position: relative; z-index: 1; }
+
+.logo-badge {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(233,69,96,0.4);
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 52px; font-weight: 800;
+  line-height: 1; letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+.brand-title span { color: var(--accent); }
+
+.brand-tagline {
+  font-size: 15px; color: var(--text-muted); line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+.how-it-works { display: flex; flex-direction: column; gap: 16px; }
+
+.step {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px; color: var(--text-muted);
+  transition: 0.2s;
+}
+.step:hover { border-color: rgba(233,69,96,0.3); color: var(--text); }
+.step-icon { font-size: 18px; }
+
+/* ── Room Panel ───────────────────────────────────── */
+.room-panel {
+  padding: 48px 52px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 28px;
+}
+
+.panel-header { display: flex; align-items: baseline; justify-content: space-between; }
+.panel-header h2 {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 700;
+}
+.online-count {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-muted);
+}
+
+.dot-pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #4ade80;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ── Buttons ──────────────────────────────────────── */
+.action-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+.btn {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 20px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-align: center;
+}
+.btn i { font-size: 20px; margin-bottom: 2px; }
+.btn-sub { font-family: var(--font-body); font-size: 11px; font-weight: 400; opacity: 0.65; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #c1121f 100%);
+  color: white; border-color: transparent;
+  box-shadow: 0 4px 24px rgba(233,69,96,0.35);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(233,69,96,0.5); }
+
+.btn-secondary {
+  background: rgba(199,125,255,0.12);
+  color: var(--accent2);
+  border-color: rgba(199,125,255,0.25);
+}
+.btn-secondary:hover { background: rgba(199,125,255,0.2); transform: translateY(-2px); }
+
+.btn-ghost {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.btn-ghost.small { padding: 10px 20px; font-size: 13px; flex-direction: row; gap: 8px; }
+
+/* ── Divider ──────────────────────────────────────── */
+.divider {
+  display: flex; align-items: center; gap: 16px;
+  color: var(--text-muted); font-size: 12px; letter-spacing: 0.5px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Room List ────────────────────────────────────── */
+.room-list-container { flex: 1; }
+
+.room-list {
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state i { font-size: 36px; margin-bottom: 16px; opacity: 0.4; display: block; }
+.empty-state p { font-size: 14px; line-height: 1.7; }
+
+.room-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: 0.2s;
+}
+.room-card:hover:not(.full) {
+  border-color: rgba(233,69,96,0.3);
+  transform: translateY(-1px);
+  background: var(--surface2);
+}
+.room-card.full { opacity: 0.45; cursor: not-allowed; }
+.room-card-id { font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+.room-card-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.room-card-badge {
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  background: rgba(233,69,96,0.12); color: var(--accent);
+  border: 1px solid rgba(233,69,96,0.2);
+}
+.room-card.full .room-card-badge {
+  background: rgba(255,255,255,0.05); color: var(--text-muted); border-color: var(--border);
+}
+
+/* ── Modals ───────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-overlay[hidden] { display: none !important; }
+
+.modal-box {
+  background: var(--surface2);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  width: 420px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-box h3 {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 700;
+}
+.modal-box p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+/* Waiting Animation */
+.waiting-animation { padding: 16px; }
+.heart-pulse {
+  font-size: 52px;
+  animation: heartBeat 1.2s ease-in-out infinite;
+  display: block;
+}
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.2); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.15); }
+  56%       { transform: scale(1); }
+}
+
+/* Code Display */
+.code-display {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 20px; width: 100%;
+}
+#generatedCode {
+  flex: 1; font-family: var(--font-display); font-size: 20px; font-weight: 700;
+  letter-spacing: 2px; color: var(--accent);
+}
+.copy-btn {
+  background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px;
+  transition: color 0.2s;
+}
+.copy-btn:hover { color: var(--accent); }
+
+/* Toggle */
+.toggle-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--text-muted); cursor: pointer;
+}
+.toggle-row input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+/* Room Input */
+.room-input {
+  width: 100%;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 18px;
+  color: var(--text); font-family: var(--font-display); font-size: 18px; font-weight: 600;
+  letter-spacing: 1px; text-align: center; outline: none;
+  transition: border-color 0.2s;
+}
+.room-input:focus { border-color: var(--accent); }
+.room-input::placeholder { color: var(--text-muted); font-weight: 400; letter-spacing: 0; }
+
+/* Error */
+.error-text { color: var(--accent); font-size: 13px; min-height: 18px; }
+
+.modal-actions { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.modal-actions .btn { flex-direction: row; gap: 10px; justify-content: center; padding: 14px; }
+
+/* ── Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 768px) {
+  html, body { overflow: auto; }
+  .lobby-wrapper { grid-template-columns: 1fr; height: auto; }
+  .brand-panel { padding: 32px 24px; }
+  .brand-title { font-size: 36px; }
+  .room-panel { padding: 28px 20px; }
+  .action-group { grid-template-columns: 1fr; }
+}
