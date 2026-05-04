@@ -1,4 +1,4 @@
-﻿const express = require("express");
+const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const path = require("path");
@@ -204,32 +204,40 @@ io.on("connection", (socket) => {
   });
 
   // ── Quick Match ───────────────────────────────────────
+  // ── Quick Match ───────────────────────────────────────
   socket.on("quickMatch", () => {
-    // Check if there's someone waiting
+    // Remove stale entries from queue first
+    waitingQueue = waitingQueue.filter(id => {
+      const s = io.sockets.sockets.get(id);
+      return s && s.connected;
+    });
+
     if (waitingQueue.length > 0 && waitingQueue[0] !== socket.id) {
       const partnerId = waitingQueue.shift();
       const partnerSocket = io.sockets.sockets.get(partnerId);
-      if (partnerSocket && partnerSocket.connected) {
-        const roomId = generateRoomId();
-        rooms[roomId] = {
-          players: [partnerId, socket.id],
-          gameStarted: true,
-          isPublic: false,
-          host: partnerId,
-          reactions: {}
-        };
-        partnerSocket.join(roomId);
-        socket.join(roomId);
-        partnerSocket.roomId = roomId;
-        socket.roomId = roomId;
-        io.to(roomId).emit("quickMatchFound", roomId);
-        setTimeout(() => {
-          io.to(roomId).emit("startGame", { hostId: partnerId });
-        }, 2000);
-        console.log(`⚡ Quick match: ${roomId}`);
-        return;
-      }
+      const roomId = generateRoomId();
+
+      // ✅ gameStarted: false — startGame will fire from rejoinRoom
+      //    once BOTH players arrive on index.html
+      rooms[roomId] = {
+        players: [partnerId, socket.id],
+        gameStarted: false,
+        isPublic: false,
+        host: partnerId,
+        reactions: {}
+      };
+
+      partnerSocket.join(roomId);
+      socket.join(roomId);
+      partnerSocket.roomId = roomId;
+      socket.roomId = roomId;
+
+      // Send roomId — clients navigate to index.html and call rejoinRoom
+      io.to(roomId).emit("quickMatchFound", roomId);
+      console.log(`⚡ Quick match: ${roomId} (${partnerId} + ${socket.id})`);
+      return;
     }
+
     waitingQueue.push(socket.id);
     socket.emit("waitingForMatch");
     console.log(`⏳ ${socket.id} waiting for match`);
